@@ -30,9 +30,7 @@ Read a Google Sheet by `SPREADSHEET_ID` and turn the result into usable markdown
 
 ### Step 1: Resolve the installed script path
 
-`SKILL_DIR` is the directory where this skill is installed. It contains `scripts/read_sheet.py`.
-
-The skill is installed into the active agent's skill directory — the exact path depends on whether it was installed globally or project-locally, and which agent is running. Use the path from which this SKILL.md was loaded, or see `docs/install-paths.md` for the full reference table.
+`SKILL_DIR` is the directory containing this skill — the directory from which this `SKILL.md` was loaded. It contains `scripts/read_sheet.py`. Each agent resolves this from its own skill registry; no hardcoded path is needed.
 
 ### Step 1.5: Extract the spreadsheet ID
 

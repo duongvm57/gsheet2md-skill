@@ -1,16 +1,15 @@
 # Install Paths
 
-The `gsheet2md` skill is installed into agent-specific directories. Use the table below to locate `SKILL_DIR` for your agent and install type.
+`SKILL_DIR` is the directory containing this skill. Each coding agent resolves it from its own skill registry — you do not need to hardcode the path.
 
-| Agent       | Global install                            | Project-local install               |
-| ----------- | ----------------------------------------- | ----------------------------------- |
-| Claude Code | `~/.claude/skills/gsheet2md`              | `.claude/skills/gsheet2md`          |
-| Cursor      | `~/.cursor/skills/gsheet2md`              | `.cursor/skills/gsheet2md`          |
-| Codex       | `~/.codex/skills/gsheet2md`               | `.codex/skills/gsheet2md`           |
-| Antigravity | `~/.agent/skills/gsheet2md`               | `.agent/skills/gsheet2md`           |
-| OpenCode    | `~/.config/opencode/skills/gsheet2md`     | `.opencode/skills/gsheet2md`        |
+## Pattern
 
-For Antigravity, the global path may be `~/.gemini/antigravity/skills/gsheet2md` when that directory already exists.
+Skills follow a consistent layout:
+
+- **Global install**: `<agent-config-dir>/skills/gsheet2md`
+- **Project-local install**: `<project-root>/<agent-config-dir>/skills/gsheet2md`
+
+Your agent knows its own `<agent-config-dir>`. When this skill is loaded, `SKILL_DIR` is the directory from which `SKILL.md` was read.
 
 ## Install via CLI
 
@@ -21,5 +20,7 @@ npx gsheet2md install
 Or non-interactively:
 
 ```bash
-gsheet2md install --tool <claude-code|cursor|codex|antigravity|opencode|all> --location <global|project-local>
+gsheet2md install --tool <name|all> --location <global|project-local>
 ```
+
+Supported tool names: `claude-code`, `cursor`, `codex`, `antigravity`, `opencode`.
