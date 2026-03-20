@@ -5,6 +5,14 @@
   "author": "duongvm <duongvm57@gmail.com>",
   "license": "MIT",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duongvm57/gsheet2md-skill.git"
+  },
+  "homepage": "https://github.com/duongvm57/gsheet2md-skill#readme",
+  "bugs": {
+    "url": "https://github.com/duongvm57/gsheet2md-skill/issues"
+  },
   "skills": {
     "name": "gsheet2md",
     "description": "Reads Google Sheets and converts the result into markdown-ready data for agents.",
