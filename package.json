@@ -1,0 +1,45 @@
+{
+  "name": "gsheet2md",
+  "version": "0.1.0",
+  "description": "CLI installer package for the gsheet2md skill.",
+  "author": "duongvm <duongvm57@gmail.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "skills": {
+    "name": "gsheet2md",
+    "description": "Reads Google Sheets and converts the result into markdown-ready data for agents.",
+    "tags": [
+      "google-sheets",
+      "claude",
+      "cursor",
+      "codex",
+      "antigravity"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "skill",
+    "google-sheets",
+    "claude-code",
+    "cursor",
+    "codex",
+    "antigravity"
+  ],
+  "bin": {
+    "gsheet2md": "./bin/google-sheet-reader.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "skills"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "release:check": "npm test && npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
