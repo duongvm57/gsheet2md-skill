@@ -37,7 +37,7 @@ This repo now includes a `skills.sh`-compatible layout under `skills/gsheet2md/`
 Once the repo is public, users can install it with the Vercel CLI flow:
 
 ```bash
-npx skills add <owner>/<repo> --skill gsheet2md
+npx skills add duongvm57/gsheet2md-skill --skill gsheet2md
 ```
 
 That path is intended for the Vercel `skills.sh` ecosystem. The npm package remains useful when you want a dedicated installer CLI with explicit global or project-local targets.
@@ -65,12 +65,13 @@ gsheet2md install --tool codex --location project-local
 
 ## Supported tools
 
-| Tool | Global path | Project-local path |
-|------|-------------|--------------------|
-| Claude Code | `~/.claude/skills/gsheet2md` | `./.claude/skills/gsheet2md` |
-| Cursor | `~/.cursor/skills/gsheet2md` | `./.cursor/skills/gsheet2md` |
-| Codex | `~/.codex/skills/gsheet2md` | `./.codex/skills/gsheet2md` |
-| Antigravity | `~/.agent/skills/gsheet2md` | `./.agent/skills/gsheet2md` |
+| Tool        | Global path                                   | Project-local path               |
+| ----------- | --------------------------------------------- | -------------------------------- |
+| Claude Code | `~/.claude/skills/gsheet2md`                  | `./.claude/skills/gsheet2md`     |
+| Cursor      | `~/.cursor/skills/gsheet2md`                  | `./.cursor/skills/gsheet2md`     |
+| Codex       | `~/.codex/skills/gsheet2md`                   | `./.codex/skills/gsheet2md`      |
+| Antigravity | `~/.agent/skills/gsheet2md`                   | `./.agent/skills/gsheet2md`      |
+| OpenCode    | `~/.config/opencode/skills/gsheet2md`         | `./.opencode/skills/gsheet2md`   |
 
 For Antigravity global installs, the CLI can prefer `~/.gemini/antigravity/skills/gsheet2md` when that environment already exists.
 
@@ -83,7 +84,7 @@ gsheet2md install --tool <name|all> --location <global|project-local> [--project
 
 ### Options
 
-- `--tool`: `claude-code`, `claude`, `cursor`, `codex`, `antigravity`, or `all`
+- `--tool`: `claude-code`, `claude`, `cursor`, `codex`, `antigravity`, `opencode`, or `all`
 - `--location`: `global`, `project-local`, `project`, or `local`
 - `--dest`: override the resolved install directory completely
 

@@ -12,12 +12,13 @@ const {
 } = require("./paths");
 const { createWizardState, reduceWizardState, renderWizard } = require("./wizard");
 
-const SUPPORTED_TOOLS = ["claude-code", "cursor", "codex", "antigravity"];
+const SUPPORTED_TOOLS = ["claude-code", "cursor", "codex", "antigravity", "opencode"];
 const TOOL_CHOICES = [
   { label: "Claude Code", value: "claude-code" },
   { label: "Cursor", value: "cursor" },
   { label: "Codex", value: "codex" },
   { label: "Antigravity", value: "antigravity" },
+  { label: "OpenCode", value: "opencode" },
   { label: "All", value: "all" },
 ];
 const LOCATION_CHOICES = [
@@ -34,7 +35,7 @@ Usage:
   gsheet2md help
 
 Options:
-  --tool        claude-code | claude | cursor | codex | antigravity | all
+  --tool        claude-code | claude | cursor | codex | antigravity | opencode | all
   --location    global | project-local | project | local
   --project-path
                 Project root used for project-local installs. Defaults to current working directory.

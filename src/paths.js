@@ -8,6 +8,7 @@ const TOOL_ALIASES = {
   cursor: "cursor",
   codex: "codex",
   antigravity: "antigravity",
+  opencode: "opencode",
 };
 
 const LOCATION_ALIASES = {
@@ -40,6 +41,7 @@ function resolveBaseDir({ tool, location, homeDir, cwd, preferGeminiAntigravity 
       cursor: ".cursor/skills",
       codex: ".codex/skills",
       antigravity: ".agent/skills",
+      opencode: ".opencode/skills",
     };
     return path.join(cwd, projectLocalDirs[tool]);
   }
@@ -53,6 +55,7 @@ function resolveBaseDir({ tool, location, homeDir, cwd, preferGeminiAntigravity 
     cursor: ".cursor/skills",
     codex: ".codex/skills",
     antigravity: ".agent/skills",
+    opencode: ".config/opencode/skills",
   };
   return path.join(homeDir, globalDirs[tool]);
 }

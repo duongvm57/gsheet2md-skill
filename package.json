@@ -21,7 +21,8 @@
       "claude",
       "cursor",
       "codex",
-      "antigravity"
+      "antigravity",
+      "opencode"
     ]
   },
   "publishConfig": {
@@ -33,7 +34,8 @@
     "claude-code",
     "cursor",
     "codex",
-    "antigravity"
+    "antigravity",
+    "opencode"
   ],
   "bin": {
     "gsheet2md": "./bin/google-sheet-reader.js"
