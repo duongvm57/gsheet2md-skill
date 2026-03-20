@@ -17,6 +17,7 @@ test("package.json includes publish-ready npm metadata", () => {
   assert.ok(packageJson.keywords.includes("claude-code"));
   assert.ok(packageJson.keywords.includes("skill"));
   assert.equal(packageJson.name, "gsheet2md");
+  assert.equal(packageJson.version, "0.3.0");
   assert.equal(packageJson.skills.name, "gsheet2md");
   assert.ok(packageJson.files.includes("skills"));
 });
@@ -37,4 +38,25 @@ test("README documents release verification and publish flow", () => {
   assert.match(readme, /npx skills add/);
   assert.match(readme, /`\.\/docs` of the current workspace/);
   assert.match(readme, /If `\.\/docs` does not exist, create it/);
+  assert.match(readme, /--gid/);
+});
+
+test("skill examples and docs mention gid-based sheet selection", () => {
+  const skillDoc = fs.readFileSync(
+    path.join(__dirname, "..", "skills", "gsheet2md", "SKILL.md"),
+    "utf8"
+  );
+  const jsonExample = fs.readFileSync(
+    path.join(__dirname, "..", "skills", "gsheet2md", "examples", "read-sheet-json.sh"),
+    "utf8"
+  );
+  const tableExample = fs.readFileSync(
+    path.join(__dirname, "..", "skills", "gsheet2md", "examples", "read-sheet-table.sh"),
+    "utf8"
+  );
+
+  assert.match(skillDoc, /--gid/);
+  assert.match(skillDoc, /gid.*overrides.*sheet-name/i);
+  assert.match(jsonExample, /--gid "<GID>"/);
+  assert.match(tableExample, /--gid "<GID>"/);
 });

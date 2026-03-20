@@ -7,6 +7,6 @@ set -eu
 mkdir -p ./docs
 python3 ../scripts/read_sheet.py \
   --spreadsheet-id "<SPREADSHEET_ID>" \
-  --sheet-name "<SHEET_NAME>" \
+  --gid "<GID>" \
   --format table \
   --output ./docs/sheet-table.md

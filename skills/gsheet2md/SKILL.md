@@ -53,9 +53,16 @@ If the user gave a raw alphanumeric ID with no slashes, use it directly.
 python3 "$SKILL_DIR/scripts/read_sheet.py" --spreadsheet-id "$SPREADSHEET_ID" --sheet-name <SHEET_NAME>
 ```
 
+If the caller already has a Google Sheets tab id from the URL, they can target it directly:
+
+```bash
+python3 "$SKILL_DIR/scripts/read_sheet.py" --spreadsheet-id "$SPREADSHEET_ID" --gid <GID>
+```
+
 ### Step 2.5: Discover the sheet name
 
 If the user did not specify a sheet name, omit `--sheet-name` — the script reads the first sheet by default.
+If the user provides both `--sheet-name` and `--gid`, `--gid` overrides `--sheet-name`.
 
 To inspect headers and data shape before committing to a format, always run json first:
 
@@ -66,6 +73,7 @@ python3 "$SKILL_DIR/scripts/read_sheet.py" \
 ```
 
 Ask the user whether they want to read additional sheets if the spreadsheet has multiple tabs.
+Always preserve the full sheet content unless the user explicitly asks for summarization.
 
 ### Step 3: Classify data shape and format accordingly
 
@@ -102,6 +110,7 @@ Structure:
 | ------------------ | -------- | ------------------------------------------------------------------------------- |
 | `--spreadsheet-id` | Yes      | The Google Spreadsheet ID                                                       |
 | `--sheet-name`     | No       | Sheet name to read. Defaults to the first sheet.                                |
+| `--gid`            | No       | Google Sheets tab id / `sheetId`. Overrides `--sheet-name` when both are set.   |
 | `--credentials`    | No       | OAuth credentials path. Defaults to `~/.config/google-sheets/oauth-token.json`. |
 | `--output`         | No       | Output file path. Defaults to stdout.                                           |
 | `--format`         | No       | Output format: `json` (default), `table`, or `text`.                            |
@@ -113,17 +122,19 @@ Structure:
 # Fetch as JSON
 python3 "$SKILL_DIR/scripts/read_sheet.py" \
   --spreadsheet-id "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" \
-  --sheet-name "Sheet1"
+  --gid "0"
 
 # Fetch as markdown table
 python3 "$SKILL_DIR/scripts/read_sheet.py" \
   --spreadsheet-id "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" \
+  --sheet-name "Sheet1" \
   --format table
 
 # Save raw output directly into the current workspace docs folder
 mkdir -p ./docs
 python3 "$SKILL_DIR/scripts/read_sheet.py" \
   --spreadsheet-id "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" \
+  --gid "0" \
   --format table \
   --output ./docs/sheet1.md
 ```

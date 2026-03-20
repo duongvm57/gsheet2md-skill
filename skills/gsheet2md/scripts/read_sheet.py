@@ -35,25 +35,48 @@ def get_access_token(credentials: dict) -> str:
         sys.exit(1)
 
 
-def get_sheet_data(spreadsheet_id: str, sheet_name: str, access_token: str) -> list:
-    """Fetch data from Google Sheets API."""
+def get_spreadsheet_metadata(spreadsheet_id: str, access_token: str) -> dict:
+    """Fetch spreadsheet metadata from Google Sheets API."""
     base_url = f"https://sheets.googleapis.com/v4/spreadsheets/{spreadsheet_id}"
+    req = Request(base_url, method="GET")
+    req.add_header("Authorization", f"Bearer {access_token}")
+
+    try:
+        with urlopen(req) as response:
+            return json.loads(response.read().decode())
+    except HTTPError as e:
+        error_body = e.read().decode()
+        print(f"Error getting spreadsheet info: {error_body}", file=sys.stderr)
+        sys.exit(1)
+
+
+def resolve_sheet_name(metadata: dict, sheet_name: str, gid: str) -> str:
+    """Resolve the target sheet name from gid, explicit name, or first sheet."""
+    sheets = metadata.get("sheets", [])
+    if not sheets:
+        print("Error getting spreadsheet info: spreadsheet has no sheets", file=sys.stderr)
+        sys.exit(1)
+
+    if gid:
+        for sheet in sheets:
+            properties = sheet.get("properties", {})
+            if str(properties.get("sheetId")) == str(gid):
+                return properties["title"]
+        print(f"Error getting spreadsheet info: no sheet found for gid {gid}", file=sys.stderr)
+        sys.exit(1)
 
     if sheet_name:
-        range_param = f"'{sheet_name}'"
-    else:
-        req = Request(base_url, method="GET")
-        req.add_header("Authorization", f"Bearer {access_token}")
+        return sheet_name
 
-        try:
-            with urlopen(req) as response:
-                result = json.loads(response.read().decode())
-                sheet_name = result["sheets"][0]["properties"]["title"]
-                range_param = f"'{sheet_name}'"
-        except HTTPError as e:
-            error_body = e.read().decode()
-            print(f"Error getting spreadsheet info: {error_body}", file=sys.stderr)
-            sys.exit(1)
+    return sheets[0]["properties"]["title"]
+
+
+def get_sheet_data(spreadsheet_id: str, sheet_name: str, gid: str, access_token: str) -> list:
+    """Fetch data from Google Sheets API."""
+    base_url = f"https://sheets.googleapis.com/v4/spreadsheets/{spreadsheet_id}"
+    metadata = get_spreadsheet_metadata(spreadsheet_id, access_token)
+    resolved_sheet_name = resolve_sheet_name(metadata, sheet_name, gid)
+    range_param = f"'{resolved_sheet_name}'"
 
     range_encoded = quote(range_param, safe='')
     values_url = f"{base_url}/values/{range_encoded}"
@@ -154,6 +177,7 @@ def main():
     parser = argparse.ArgumentParser(description="Read Google Sheet and convert to markdown")
     parser.add_argument("--spreadsheet-id", required=True, help="Google Spreadsheet ID")
     parser.add_argument("--sheet-name", default="", help="Sheet name (default: first sheet)")
+    parser.add_argument("--gid", default="", help="Google Sheets gid / sheetId (overrides --sheet-name)")
     parser.add_argument("--credentials", default="~/.config/google-sheets/oauth-token.json", help="Path to OAuth credentials JSON")
     parser.add_argument("--output", default="", help="Output file path (default: stdout)")
     parser.add_argument("--raw", action="store_true", help="Keep all columns including empty ones")
@@ -180,7 +204,7 @@ def main():
             sys.exit(1)
 
     access_token = get_access_token(credentials)
-    data = get_sheet_data(args.spreadsheet_id, args.sheet_name, access_token)
+    data = get_sheet_data(args.spreadsheet_id, args.sheet_name, args.gid, access_token)
 
     if not args.raw:
         data = clean_data(data)

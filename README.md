@@ -113,10 +113,14 @@ Example:
 mkdir -p ./docs
 python3 <skill-dir>/scripts/read_sheet.py \
   --spreadsheet-id "<SPREADSHEET_ID>" \
-  --sheet-name "<SHEET_NAME>" \
+  --gid "<GID>" \
   --format table \
   --output ./docs/<sheet-name>.md
 ```
+
+Use `--sheet-name` when you want to target a tab by title. Use `--gid` when you already have the Google Sheets tab id from a URL such as `.../edit?gid=123#gid=123`. If both are provided, `--gid` wins.
+
+The script always returns the full selected sheet in the requested format. It does not summarize, sample, or truncate output by default.
 
 ## Development
 

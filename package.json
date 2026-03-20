@@ -1,6 +1,6 @@
 {
   "name": "gsheet2md",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "CLI installer package for the gsheet2md skill.",
   "author": "duongvm <duongvm57@gmail.com>",
   "license": "MIT",
@@ -46,7 +46,7 @@
     "skills"
   ],
   "scripts": {
-    "test": "node --test",
+    "test": "node --test && python3 -B -m unittest discover -s test -p '*_test.py'",
     "release:check": "npm test && npm pack --dry-run"
   },
   "engines": {
